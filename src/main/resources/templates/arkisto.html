@@ -14,7 +14,7 @@
                 <form method="POST" action="/poista">
                     <input type="submit" name="poista" th:value="${drinkki.id}">Poista</input>
                 </form>
-                <form method="POST" action="/uusiarvostelu">
+                <form method="POST" th:action="@{/uusiarvostelu/(drinkki.id)}">
                     <input type="submit" name="arvostelu" th:value="${drinkki.id}">Arvostele</input>
                 </form>
             </li>
