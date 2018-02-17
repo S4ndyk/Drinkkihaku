@@ -1,25 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tikape.database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.drinkkihaku.RaakaAine;
 
-/**
- *
- * @author Santtu
- */
 public class RaakaAineDAO implements DAO<RaakaAine, Integer> {
 
     Database database;
+    
+    public RaakaAineDAO(Database database){
+        this.database = database;
+    }
     
     @Override
     public RaakaAine findOne(Integer key) throws SQLException {
@@ -47,21 +39,19 @@ public class RaakaAineDAO implements DAO<RaakaAine, Integer> {
 
     @Override
     public List findAll() throws SQLException {
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM RaakaAine");
-
-        ResultSet rs = stmt.executeQuery();
-        List<RaakaAine> lista = new ArrayList<>();
-        while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String nimi = rs.getString("nimi");
-            
-            lista.add(new RaakaAine(id, nimi));
+        List<RaakaAine> lista;
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM RaakaAine");
+            ResultSet rs = stmt.executeQuery();
+            lista = new ArrayList<>();
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                String nimi = rs.getString("nimi");
+                
+                lista.add(new RaakaAine(id, nimi));
+            }   rs.close();
+            stmt.close();
         }
-
-        rs.close();
-        stmt.close();
-        connection.close();
 
         return lista;
     }
@@ -80,7 +70,7 @@ public class RaakaAineDAO implements DAO<RaakaAine, Integer> {
     
     @Override
     public void saveOrUpdate(RaakaAine object) throws SQLException {
-        if (object.getId() == null) {
+        if (findOne(object.getId()) == null) {
             save(object);
         } else {
             update(object);
@@ -112,6 +102,5 @@ public class RaakaAineDAO implements DAO<RaakaAine, Integer> {
 
         stmt.close();
         conn.close();
-    }
-    
+    } 
 }

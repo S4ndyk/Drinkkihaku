@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tikape.domain;
 
 import java.util.*;
@@ -10,18 +5,15 @@ import static spark.Spark.*;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.database.*;
-import tikape.drinkkihaku.Drinkki;
+import tikape.drinkkihaku.*;
 
-/**
- *
- * @author Santtu
- */
 public class Main {
     
     public static void main(String [] args) throws Exception {
         
         Database database = new Database("jdbc:sqlite:db/database.db");
         DrinkkiDAO Ddao = new DrinkkiDAO(database);
+        RaakaAineDAO Rdao = new RaakaAineDAO(database);
         
         //etusivu
         get("/index", (req, res) -> {
@@ -35,6 +27,7 @@ public class Main {
             return "";
         });
         
+        //arkisto sivu
         get("/arkisto", (req, res) -> {
             HashMap map = new HashMap();
             map.put("drinkit", Ddao.findAll());
@@ -48,6 +41,28 @@ public class Main {
             res.redirect("/arkisto");
             return "";        
         });
+        
+        //drinkin lisäys sivu
+        get("/drinkki", (req, res) -> {
+            HashMap map = new HashMap();
+            return new ModelAndView(map, "drinkki");
+        }, new ThymeleafTemplateEngine());
+        
+        //raaka-aine sivu
+        get("/raaka-aine", (req, res) -> {
+            HashMap map = new HashMap();
+            map.put("raakaAineet", Rdao.findAll());
+            return new ModelAndView(map, "raaka-aine");
+        }, new ThymeleafTemplateEngine());
+        
+        //lisää uuden raaka-aineen
+        post("/raaka-aine", (req, res) -> {
+            String nimi = req.queryParams("nimi");
+            Rdao.saveOrUpdate(new RaakaAine(-1, nimi));
+            res.redirect("/raaka-aine");
+            return "";        
+        });
+        
         
         /*kun käyttäjä valitsee arvosteltavan drinkin !!ei toiminnassa!!
           html tiedostoa muokattava. yritin mutta thymeleaf heittää errorin

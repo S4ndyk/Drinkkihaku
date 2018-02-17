@@ -5,7 +5,23 @@
         <meta charset="UTF-8"/>
     </head>
     <body>
+        <h1>Raaka-aineet</h1>
+        <h2>Arkisto ja lisäys</h2>
+        <a href="/drinkki">Takaisin drinkin lisäykseen</a><br />
+        <a href="/arkisto">Takaisin arkistoon</a>
+        <h4>Alla lista jo tietokannassa olevista raaka-aineista</h4>
+        <ul>
+            <li th:each="raakaAine: ${raakaAineet}">
+                <span th:text="${raakaAine.nimi}"></span>
+            </li>
+        </ul>
         
+        <h3>Lisää uusi raaka-aine</h3>
+        <form method="POST" action="/raaka-aine">
+            Nimi:<br/>
+            <input type="text" name="nimi"/><br />
+            <input type="submit" value="Lisää"/>
+        </form>
     </body>
 </html>
 

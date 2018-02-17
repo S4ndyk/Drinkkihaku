@@ -1,10 +1,7 @@
 package tikape.drinkkihaku;
 
-/**
- *
- * @author Santtu
- */
 public class Drinkki {
+    
     private Integer id;
     private String nimi;
     

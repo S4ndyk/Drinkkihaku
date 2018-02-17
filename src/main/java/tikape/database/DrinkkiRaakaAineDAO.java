@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tikape.database;
 
 import java.sql.Connection;
@@ -11,13 +6,13 @@ import java.sql.SQLException;
 import java.util.List;
 import tikape.drinkkihaku.DrinkkiRaakaAine;
 
-/**
- *
- * @author Santtu
- */
 public class DrinkkiRaakaAineDAO implements DAO<DrinkkiRaakaAine, Integer> {
 
     Database database;
+    
+    public DrinkkiRaakaAineDAO(Database database){
+        this.database = database;
+    }
 
     @Override
     public void saveOrUpdate(DrinkkiRaakaAine drinkkiRaakaAine) throws SQLException {
