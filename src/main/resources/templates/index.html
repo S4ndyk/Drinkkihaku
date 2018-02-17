@@ -1,0 +1,19 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Etusivu</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+       <h1>Drinkkihaku - Juomaa kaikille</h1>
+       <h2>Valikko</h2>
+        <ul>    
+            <li><a href="/arkisto">Arkistoon</a></li>
+            <li> <a href="/drinkki">Lisää juoma</a></li>
+        </ul>
+       <form action="/haku" method="POST">
+           Hae arkistosta: 
+           <input type="search" name="nimi" value="Hae juotavaa"/>
+        </form>         
+    </body>
+</html>

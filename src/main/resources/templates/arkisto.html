@@ -1,0 +1,26 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Arkisto</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1>Arkisto</h1>
+        <h3>Täältä löydät kaikki juomat</h3>
+        <a href="/index">Takaisin</a>
+        <ul>
+            <li th:each="drinkki: ${drinkit}">
+                <span th:text="${drinkki.nimi}"></span>
+                <form method="POST" action="/poista">
+                    <input type="submit" name="poista" th:value="${drinkki.id}">Poista</input>
+                </form>
+                <form method="POST" action="/uusiarvostelu">
+                    <input type="submit" name="arvostelu" th:value="${drinkki.id}">Arvostele</input>
+                </form>
+            </li>
+        </ul>
+        <a href="/drinkki">Uusi drinki</a>
+    </body>
+</html>
+
+
