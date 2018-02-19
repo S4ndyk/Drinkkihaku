@@ -5,6 +5,13 @@
         <meta charset="UTF-8"/>
     </head>
     <body>
+        <h2>Arvostelu juomalle</h2>
+        <span th:text="${drinkki.nimi}"></span>
+        <form method="POST" action="/arvostelu">
+            <input type="text" name="teksti"/><br />
+            <input type="submit" value="Lähetä"/>
+            <input type="number" name="pisteet" min="1" max="100" step="1" value="1"/>
+        </form>
         
     </body>
 </html>

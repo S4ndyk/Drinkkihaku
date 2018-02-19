@@ -14,6 +14,7 @@ public class Main {
         Database database = new Database("jdbc:sqlite:db/database.db");
         DrinkkiDAO Ddao = new DrinkkiDAO(database);
         RaakaAineDAO Rdao = new RaakaAineDAO(database);
+        ArvosteluDAO Adao = new ArvosteluDAO(database);
         
         //etusivu
         get("/index", (req, res) -> {
@@ -64,14 +65,23 @@ public class Main {
         });
         
         
-        /*kun käyttäjä valitsee arvosteltavan drinkin !!ei toiminnassa!!
-          html tiedostoa muokattava. yritin mutta thymeleaf heittää errorin
-        */
         post("/uusiarvostelu/:id", (req, res) -> {
             Integer id = Integer.parseInt(req.queryParams("arvostelu"));
+            Drinkki drinkki = Ddao.findOne(id);
+            
             HashMap map = new HashMap();
-            map.put("id", id);
+            map.put("drinkki", drinkki);
+            
             return new ModelAndView(map, "/arvostelu");
+        },new ThymeleafTemplateEngine());
+        
+        
+        post("/arvostelu", (req, res) -> {
+            String teksti = req.queryParams("teksti");
+            Integer pisteet = Integer.parseInt(req.queryParams("pisteet"));
+            Adao.saveOrUpdate(new Arvostelu(-1, teksti, pisteet));
+            res.redirect("/arkisto");
+            return "";
         });
         
         //hakutoiminto. !!ei toteutettu!!
