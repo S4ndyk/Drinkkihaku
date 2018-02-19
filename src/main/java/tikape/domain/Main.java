@@ -64,7 +64,7 @@ public class Main {
             return "";        
         });
         
-        
+        //toimii
         post("/uusiarvostelu/:id", (req, res) -> {
             Integer id = Integer.parseInt(req.queryParams("arvostelu"));
             Drinkki drinkki = Ddao.findOne(id);
@@ -75,7 +75,7 @@ public class Main {
             return new ModelAndView(map, "/arvostelu");
         },new ThymeleafTemplateEngine());
         
-        
+        //toimii
         post("/arvostelu", (req, res) -> {
             String teksti = req.queryParams("teksti");
             Integer pisteet = Integer.parseInt(req.queryParams("pisteet"));
