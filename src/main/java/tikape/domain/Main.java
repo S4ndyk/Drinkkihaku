@@ -79,7 +79,8 @@ public class Main {
         post("/arvostelu", (req, res) -> {
             String teksti = req.queryParams("teksti");
             Integer pisteet = Integer.parseInt(req.queryParams("pisteet"));
-            Adao.saveOrUpdate(new Arvostelu(-1, teksti, pisteet));
+            Integer DrinkkiId = Integer.parseInt(req.queryParams("id"));
+            Adao.saveOrUpdate(new Arvostelu(-1, DrinkkiId,teksti, pisteet));
             res.redirect("/arkisto");
             return "";
         });

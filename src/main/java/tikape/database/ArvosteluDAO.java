@@ -28,10 +28,11 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
         }
 
         Integer id = rs.getInt("id");
+        Integer drinkkiId = rs.getInt("drinkkiId");
         String teksti = rs.getString("teksti");
         Integer pisteet = rs.getInt("pisteet");
 
-        Arvostelu object = new Arvostelu(id, teksti, pisteet);
+        Arvostelu object = new Arvostelu(id, drinkkiId,teksti, pisteet);
 
         rs.close();
         stmt.close();
@@ -49,9 +50,10 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
             lista = new ArrayList<>();
             while (rs.next()) {
                 Integer id = rs.getInt("id");
+                Integer drinkkiId = rs.getInt("drinkkiId");
                 String teksti = rs.getString("teksti");
                 Integer pisteet = rs.getInt("pisteet");
-                Arvostelu object = new Arvostelu(id, teksti, pisteet);
+                Arvostelu object = new Arvostelu(id, drinkkiId,teksti, pisteet);
                 
                 lista.add(object);
             }   rs.close();
@@ -86,10 +88,12 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
     public void save(Arvostelu object) throws SQLException {
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Arvostelu"
-                    + " (teksti, pisteet)"
-                    + " VALUES (?, ?)");
-            stmt.setString(1, object.getTeksti());
-            stmt.setInt(2, object.getPisteet());
+                    + " (drinkkiId, teksti, pisteet)"
+                    + " VALUES (?, ?, ?)");
+            
+            stmt.setInt(1, object.getDrinkkiId());
+            stmt.setString(2, object.getTeksti());
+            stmt.setInt(3, object.getPisteet());
             
             stmt.executeUpdate();
             stmt.close();
