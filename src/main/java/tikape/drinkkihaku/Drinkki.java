@@ -6,7 +6,6 @@ import tikape.database.Database;
 
 public class Drinkki {
     
-    private String arvosteluRivi;
     private Integer id;
     private String nimi;
     
@@ -40,8 +39,10 @@ public class Drinkki {
     
     public String getArvosteluRivi() throws Exception {
         Double arvostelu = arvostelu();
+        int arvosteluja = arvosteluja();
         if (arvostelu == -1.0) return "ei arvosteluja";
-        return arvostelu + "/100, " + arvosteluja() + " arvostelua";
+        if (arvosteluja == 1) return arvostelu + "/100, " + arvosteluja + " arvostelu";
+        return arvostelu + "/100, " + arvosteluja + " arvostelua";
     }
     
 }
