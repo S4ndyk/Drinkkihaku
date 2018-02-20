@@ -41,7 +41,7 @@ public class DrinkkiDAO implements DAO<Drinkki, Integer>{
     }
 
     @Override
-    public List findAll() throws SQLException {
+    public List<Drinkki> findAll() throws SQLException {
         List<Drinkki> lista;
         try (Connection connection = database.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Drinkki");
