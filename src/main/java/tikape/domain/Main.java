@@ -36,7 +36,17 @@ public class Main {
             return new ModelAndView(map, "arkisto");
         }, new ThymeleafTemplateEngine());
         
+        //kun klikkaa drinkki linkistä
+        post("/drinkk/:id", (req, res) -> {
+            HashMap map = new HashMap();
+            Integer id = Integer.parseInt(req.queryParams("drinkki"));
+            Drinkki drinkki = Ddao.findOne(id);
+            map.put("drinkki", drinkki);
+            return new ModelAndView(map, "/drinkki");
+  
+        }, new ThymeleafTemplateEngine());
         
+
         //poistamistoiminto (toimivuus riippuu java-jumalien tahdosta)
         post("/poista", (req, res) -> {
             Ddao.delete(Integer.parseInt(req.queryParams("poista")));
