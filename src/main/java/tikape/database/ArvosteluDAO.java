@@ -64,16 +64,15 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
         return lista;
     }
     
-    public List<Arvostelu> drinkinArvostelut(Drinkki drinkki) throws SQLException {
+    public List<Arvostelu> drinkinArvostelut(Integer drinkkiId) throws SQLException {
         List<Arvostelu> lista;
         try (Connection connection = database.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Arvostelu WHERE drinkkiId = ?");
-            stmt.setInt(1, drinkki.getId());
+            stmt.setInt(1, drinkkiId);
             ResultSet rs = stmt.executeQuery();
             lista = new ArrayList<>();
             while (rs.next()) {
                 Integer id = rs.getInt("id");
-                Integer drinkkiId = rs.getInt("drinkkiId");
                 String teksti = rs.getString("teksti");
                 Integer pisteet = rs.getInt("pisteet");
                 Arvostelu object = new Arvostelu(id, drinkkiId,teksti, pisteet);

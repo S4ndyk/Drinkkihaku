@@ -6,6 +6,7 @@ import tikape.database.Database;
 
 public class Drinkki {
     
+    private String arvosteluRivi;
     private Integer id;
     private String nimi;
     
@@ -25,7 +26,7 @@ public class Drinkki {
     public List<Arvostelu> arvostelut() throws Exception {
         Database database = new Database("jdbc:sqlite:db/database.db");
         ArvosteluDAO dao = new ArvosteluDAO(database);
-        return dao.drinkinArvostelut(this);
+        return dao.drinkinArvostelut(id);
     }
     
     public Double arvostelu() throws Exception {
