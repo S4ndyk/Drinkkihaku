@@ -10,7 +10,9 @@
         <a href="/index">Takaisin</a>
         <ul>
             <li th:each="drinkki: ${drinkit}">
-                <span th:text="${drinkki.nimi}"></span>
+                <a th:href="@{~/drinkki/{id}(id=${drinkki.id})}">
+                    <span th:text="${drinkki.nimi}"></span>
+                </a>
                 
                 <form method="POST" action="/poista">
                     <input type="submit" name="poista" th:value="${drinkki.id}">Poista</input>
@@ -21,7 +23,7 @@
                 </form>
             </li>
         </ul>
-        <a href="/drinkki">Uusi drinki</a>
+        <a href="/uusidrinkki">Uusi drinki</a>
     </body>
 </html>
 
