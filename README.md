@@ -5,7 +5,7 @@ tikape-k18
 * Drinkin lisäys toiminto
 	* Santtu ainakin osittain
 	* jos raaka-aineet tulee luoda ensin, siitä pitää huomauttaa
-	* Raaka-aineen luominen tälle sivulle
+	* Raaka-aineen luominen tälle sivulle // prototyyppi valmis
 		* Aatu
 		* Alkoholiprosentti mukaan
 	* raaka-aineet lisätään yksi kerrallaan ja näkyvät sivun yläosassa

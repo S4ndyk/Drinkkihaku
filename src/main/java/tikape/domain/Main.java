@@ -70,7 +70,15 @@ public class Main {
         //lisää uuden raaka-aineen
         post("/raaka-aine", (req, res) -> {
             String nimi = req.queryParams("nimi");
-            Rdao.saveOrUpdate(new RaakaAine(-1, nimi));
+            Double alkoholiprosentti = Double.parseDouble(req.queryParams("alkoholiprosentti"));
+            Rdao.saveOrUpdate(new RaakaAine(-1, nimi, alkoholiprosentti));
+            res.redirect("/raaka-aine");
+            return "";        
+        });
+        
+        //raaka-aineen poistamistoiminto EI TOIMI
+        post("/raaka-aine/poista", (req, res) -> {
+            Rdao.delete(Integer.parseInt(req.queryParams("poista")));
             res.redirect("/raaka-aine");
             return "";        
         });

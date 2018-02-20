@@ -7,21 +7,32 @@
     <body>
         <h1>Raaka-aineet</h1>
         <h2>Arkisto ja lisäys</h2>
+        <a href="/">Takaisin aloitussivulle</a><br />
         <a href="/drinkki">Takaisin drinkin lisäykseen</a><br />
         <a href="/arkisto">Takaisin arkistoon</a>
+        
         <h4>Alla lista jo tietokannassa olevista raaka-aineista</h4>
         <ul>
             <li th:each="raakaAine: ${raakaAineet}">
                 <span th:text="${raakaAine.nimi}"></span>
+                <span th:text="${raakaAine.alkoholiprosentti}"></span>
+                 <form method="POST" action="/raaka-aine/poista">
+                        <input type="submit" value="Poista"/>
+                        <input type="hidden" name="poista" th:value="${raakaAine.id}"></input>
+                    </form>
+
             </li>
         </ul>
-        
+
         <h3>Lisää uusi raaka-aine</h3>
         <form method="POST" action="/raaka-aine">
             Nimi:<br/>
             <input type="text" name="nimi"/><br />
+            Alkoholiprosentti [0-100]:<br/>
+            <input type="number" name="alkoholiprosentti" min="0" max="100" step="1" value="0"/>
             <input type="submit" value="Lisää"/>
-        </form>
+        </form>     
+
     </body>
 </html>
 

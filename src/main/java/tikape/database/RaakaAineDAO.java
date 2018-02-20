@@ -27,8 +27,9 @@ public class RaakaAineDAO implements DAO<RaakaAine, Integer> {
 
         Integer id = rs.getInt("id");
         String nimi = rs.getString("nimi");
+        Double alkoholiprosentti = rs.getDouble("alkoholiprosentti");
 
-        RaakaAine object = new RaakaAine(id, nimi);
+        RaakaAine object = new RaakaAine(id, nimi, alkoholiprosentti);
 
         rs.close();
         stmt.close();
@@ -47,8 +48,9 @@ public class RaakaAineDAO implements DAO<RaakaAine, Integer> {
             while (rs.next()) {
                 Integer id = rs.getInt("id");
                 String nimi = rs.getString("nimi");
+                Double alkoholiprosentti = rs.getDouble("alkoholiprosentti");
                 
-                lista.add(new RaakaAine(id, nimi));
+                lista.add(new RaakaAine(id, nimi, alkoholiprosentti));
             }   rs.close();
             stmt.close();
         }
@@ -80,10 +82,9 @@ public class RaakaAineDAO implements DAO<RaakaAine, Integer> {
     @Override
     public void save(RaakaAine object) throws SQLException {
         Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO RaakaAine"
-                + " (nimi)"
-                + " VALUES (?)");
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO RaakaAine (nimi, alkoholiprosentti) VALUES (?, ?)");
         stmt.setString(1, object.getNimi());
+        stmt.setDouble(2, object.getAlkoholiprosentti());
 
         stmt.executeUpdate();
         stmt.close();
@@ -94,9 +95,10 @@ public class RaakaAineDAO implements DAO<RaakaAine, Integer> {
     public void update(RaakaAine object) throws SQLException {
         Connection conn = database.getConnection();
         PreparedStatement stmt = conn.prepareStatement("UPDATE RaakaAine SET"
-                + " nimi = ? WHERE id = ?");
+                + " nimi = ?, alkoholiprosentti = ? WHERE id = ?");
         stmt.setString(1, object.getNimi());
-        stmt.setInt(2, object.getId());
+        stmt.setDouble(2, object.getAlkoholiprosentti());
+        stmt.setInt(3, object.getId());
 
         stmt.executeUpdate();
 
