@@ -76,7 +76,7 @@ public class Main {
             return "";        
         });
         
-        //raaka-aineen poistamistoiminto EI TOIMI
+        //raaka-aineen poistamistoiminto 
         post("/raaka-aine/poista", (req, res) -> {
             Rdao.delete(Integer.parseInt(req.queryParams("poista")));
             res.redirect("/raaka-aine");
