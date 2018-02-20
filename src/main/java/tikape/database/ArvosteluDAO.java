@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.drinkkihaku.Arvostelu;
+import tikape.drinkkihaku.Drinkki;
 
 public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
     Database database;
@@ -42,10 +43,32 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
     }
 
     @Override
-    public List findAll() throws SQLException {
+    public List<Arvostelu> findAll() throws SQLException {
         List<Arvostelu> lista;
         try (Connection connection = database.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Arvostelu");
+            ResultSet rs = stmt.executeQuery();
+            lista = new ArrayList<>();
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                Integer drinkkiId = rs.getInt("drinkkiId");
+                String teksti = rs.getString("teksti");
+                Integer pisteet = rs.getInt("pisteet");
+                Arvostelu object = new Arvostelu(id, drinkkiId,teksti, pisteet);
+                
+                lista.add(object);
+            }   rs.close();
+            stmt.close();
+        }
+
+        return lista;
+    }
+    
+    public List<Arvostelu> drinkinArvostelut(Drinkki drinkki) throws SQLException {
+        List<Arvostelu> lista;
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Arvostelu WHERE drinkkiId = ?");
+            stmt.setInt(1, drinkki.getId());
             ResultSet rs = stmt.executeQuery();
             lista = new ArrayList<>();
             while (rs.next()) {
