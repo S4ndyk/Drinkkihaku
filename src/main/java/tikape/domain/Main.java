@@ -12,6 +12,7 @@ public class Main {
     public static void main(String [] args) throws Exception {
         
         Database database = new Database("jdbc:sqlite:db/database.db");
+        staticFiles.location("/public");
         DrinkkiDAO Ddao = new DrinkkiDAO(database);
         RaakaAineDAO Rdao = new RaakaAineDAO(database);
         ArvosteluDAO Adao = new ArvosteluDAO(database);

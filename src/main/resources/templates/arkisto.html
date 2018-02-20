@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Arkisto</title>
+        <link rel="stylesheet" type="text/css" href="arkistoTyyli.css"/>
         <meta charset="UTF-8"/>
     </head>
     <body>
@@ -10,16 +11,20 @@
         <a href="/index">Takaisin</a>
         <ul>
             <li th:each="drinkki: ${drinkit}">
-                <a th:href="@{~/drinkki/{id}(id=${drinkki.id})}">
-                    <span th:text="${drinkki.nimi}"></span>
-                </a>
-                
+                <form method="POST" th:action="@{~/drinkki/{id}(id=${drinkki.id})}">
+                    <input type="hidden" name="drinkki" th:value="${drinkki.id}"/>
+                    <input type="submit" class="linkki" th:value="${drinkki.nimi}"/>
+                    
+                </form>
+                   
                 <form method="POST" action="/poista">
-                    <input type="submit" name="poista" th:value="${drinkki.id}">Poista</input>
+                    <input type="submit" value="Poista"/>
+                    <input type="hidden" name="poista" th:value="${drinkki.id}"></input>
                 </form>
                 
                 <form method="POST" th:action="@{~/uusiarvostelu/{id}(id=${drinkki.id})}">
-                    <input type="submit" name="arvostelu" th:value="${drinkki.id}">Arvostele</input>
+                   <input type="submit" value="Arvostele"/>
+                   <input type="hidden" name="arvostelu" th:value="${drinkki.id}"></input>
                 </form>
             </li>
         </ul>
