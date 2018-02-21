@@ -36,7 +36,7 @@ public class Main {
             return new ModelAndView(map, "arkisto");
         }, new ThymeleafTemplateEngine());
         
-        //kun klikkaa drinkki linkistä (ei toimi vika html puolella(arkisto.html))
+        //drinkin omat sivut 
         post("/drinkki/:id", (req, res) -> {
             HashMap map = new HashMap();
             Integer id = Integer.parseInt(req.queryParams("drinkki"));
