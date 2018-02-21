@@ -5,9 +5,11 @@ tikape-k18
 * Drinkin lisäys toiminto
 	* Santtu ainakin osittain
 	* jos raaka-aineet tulee luoda ensin, siitä pitää huomauttaa
-	* Raaka-aineen luominen tälle sivulle
+	* Raaka-aineen luominen tälle sivulle // runko toimii 
 		* Aatu
 		* Alkoholiprosentti mukaan
+                * RaakaAine-taulu on muotoa id, nimi, alkoholiprosentti (double)
+                * Aakkosjärjestestys yms. olisi hieno
 	* raaka-aineet lisätään yksi kerrallaan ja näkyvät sivun yläosassa
 		* raaka-aineet listassa aakkosjärjestyksessä!
 		* määrä
