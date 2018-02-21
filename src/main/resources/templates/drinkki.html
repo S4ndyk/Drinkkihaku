@@ -5,13 +5,8 @@
         <meta charset="UTF-8"/>
     </head>
     <body>
-        <h1>Luo uusi drinkki</h1>
+        <h1 th:text='${drinkki.nimi}'></h1>
         <a href="/arkisto">Takaisin</a><br />
-        <span th:text="${drinkki.nimi}"/>
-        <form method="POST" action="drinkki.html">
-         
-        </form>
         
-        <a href ="/raaka-aine">Uusi raaka-aine</a>
     </body>
 </html>
