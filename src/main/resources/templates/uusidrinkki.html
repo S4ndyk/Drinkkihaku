@@ -2,10 +2,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Uusi drinkki</title>
+        <link rel="stylesheet" type="text/css" href="uusidrinkkiTyyli.css"/>
         <meta charset="UTF-8"/>
     </head>
     <body>
+        <h1>Drinkin teko kone</h1>
+        <h3>Valitse raaka-aineet ja kirjoita ohje</h3>
         
+        <form method="POST" action="uusidrinkki/uusi">
+            Nimi
+            <input type='text' name='nimi'/><br />
+            Raaka-Aineet:
+            <ul>
+                <li th:each="raakaAine: ${raakaAineet}" class="lista">
+                    <input type="checkbox" th:name="${raakaAine.nimi}" th:value="${raakaAine.id}"/>
+                    <span th:text="${raakaAine.nimi}"></span>  
+                </li>
+            </ul>
+            Ohje:
+            <input type='text' name='ohje' class='ohje'/><br />
+            <input type="submit"/>
+        </form>
     </body>
 </html>
 

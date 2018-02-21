@@ -36,7 +36,7 @@ public class Main {
             return new ModelAndView(map, "arkisto");
         }, new ThymeleafTemplateEngine());
         
-        //kun klikkaa drinkki linkistä
+        //kun klikkaa drinkki linkistä (ei toimi vika html puolella(arkisto.html))
         post("/drinkk/:id", (req, res) -> {
             HashMap map = new HashMap();
             Integer id = Integer.parseInt(req.queryParams("drinkki"));
@@ -96,6 +96,20 @@ public class Main {
             return "";
         });
         
+        //uusidrinkki
+        get("/uusidrinkki", (req, res) -> {
+            HashMap map = new HashMap();
+            map.put("raakaAineet", Rdao.findAll());
+            return new ModelAndView(map, "uusidrinkki");
+        }, new ThymeleafTemplateEngine());
+        
+        post("/uusidrinkki/uusi", (req, res) -> {
+            HashMap map = new HashMap();
+            
+            res.redirect("/arkisto");
+            return "";
+        });
+
         //hakutoiminto. !!ei toteutettu!!
         post("/haku", (req, res) -> {
             String nimi = req.queryParams("nimi");
