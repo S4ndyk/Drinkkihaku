@@ -37,7 +37,7 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         //kun klikkaa drinkki linkistä (ei toimi vika html puolella(arkisto.html))
-        post("/drinkk/:id", (req, res) -> {
+        post("/drinkki/:id", (req, res) -> {
             HashMap map = new HashMap();
             Integer id = Integer.parseInt(req.queryParams("drinkki"));
             Drinkki drinkki = Ddao.findOne(id);
@@ -53,12 +53,6 @@ public class Main {
             res.redirect("/arkisto");
             return "";        
         });
-        
-        //drinkin lisäys sivu
-        get("/drinkki", (req, res) -> {
-            HashMap map = new HashMap();
-            return new ModelAndView(map, "drinkki");
-        }, new ThymeleafTemplateEngine());
         
         //raaka-aine sivu
         get("/raaka-aine", (req, res) -> {
