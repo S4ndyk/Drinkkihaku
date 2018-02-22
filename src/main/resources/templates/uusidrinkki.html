@@ -9,19 +9,32 @@
         <h1>Drinkin teko kone</h1>
         <h3>Valitse raaka-aineet ja kirjoita ohje</h3>
         
-        <form method="POST" action="uusidrinkki/uusi">
-            Nimi
-            <input type='text' name='nimi'/><br />
+        <form method="POST" action="uusidrinkki/uusiraaka-aine">
+            Nimi:
+            <input type='text' name='nimi' th:value='${nimi}'/>
             Raaka-Aineet:
             <ul>
                 <li th:each="raakaAine: ${raakaAineet}" class="lista">
-                    <input type="checkbox" th:name="${raakaAine.nimi}" th:value="${raakaAine.id}"/>
+                    <input type="radio" name="raakaAine" th:value="${raakaAine.id}"/>
                     <span th:text="${raakaAine.nimi}"></span>  
                 </li>
             </ul>
-            Ohje:
-            <input type='text' name='ohje' class='ohje'/><br />
+            Ohje;
+            <input type='text' name='ohje' th:value="${ohje}"/><br />
+            <input type='submit' value='Lisää raaka-aine' />
+        </form>
+       
+       <ul>
+            <li th:each="drinkkiAine: ${drinkkiaineet}">
+                 <span th:text="${drinkkiAine.nimi}"></span>
+            </li>
+        </ul>
+        
+        <form method="POST" action="uusidrinkki/uusi">
             <input type="submit"/>
+            <input type="hidden" th:value='${drinkkiAineet}' name='drinkkiAineet'/>
+            <input type="hidden" th:value='${ohje}' name='ohje'/>
+            <input type="hidden" th:value='${nimi}' name='nimi'/>
         </form>
     </body>
 </html>

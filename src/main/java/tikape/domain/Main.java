@@ -47,7 +47,7 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
 
-        //poistamistoiminto (toimivuus riippuu java-jumalien tahdosta)
+        //poistamistoiminto
         post("/poista", (req, res) -> {
             Ddao.delete(Integer.parseInt(req.queryParams("poista")));
             res.redirect("/arkisto");
@@ -77,7 +77,7 @@ public class Main {
             return "";        
         });
         
-        //toimii
+        //arvostelu sivu
         post("/uusiarvostelu/:id", (req, res) -> {
             Integer id = Integer.parseInt(req.queryParams("arvostelu"));
             Drinkki drinkki = Ddao.findOne(id);
@@ -88,7 +88,7 @@ public class Main {
             return new ModelAndView(map, "/arvostelu");
         },new ThymeleafTemplateEngine());
         
-        //toimii
+        //uuden arvosteul lisäys
         post("/arvostelu", (req, res) -> {
             String teksti = req.queryParams("teksti");
             Integer pisteet = Integer.parseInt(req.queryParams("pisteet"));
@@ -102,15 +102,23 @@ public class Main {
         get("/uusidrinkki", (req, res) -> {
             HashMap map = new HashMap();
             map.put("raakaAineet", Rdao.findAll());
+            map.put("ohje", "");
+            map.put("nimi", "");
+            map.put("drinkkiAineet", new ArrayList());
             return new ModelAndView(map, "uusidrinkki");
         }, new ThymeleafTemplateEngine());
         
-        post("/uusidrinkki/uusi", (req, res) -> {
+        post("/uusidrinkki/uusiraaka-aine", (req, res) -> {
             HashMap map = new HashMap();
-            
-            res.redirect("/arkisto");
-            return "";
-        });
+            map.put("raakaAineet", Rdao.findAll());
+            String ohje = req.queryParams("ohje");
+            String nimi = req.queryParams("nimi");
+            Integer id = Integer.parseInt(req.queryParams("raakaAine"));
+            map.put("ohje", ohje);
+            map.put("nimi", nimi);
+            map.put("drinkkiaineet", Rdao.findOne(id));
+            return new ModelAndView(map, "uusidrinkki");
+        }, new ThymeleafTemplateEngine());
 
         //hakutoiminto. !!ei toteutettu!!
         post("/haku", (req, res) -> {
