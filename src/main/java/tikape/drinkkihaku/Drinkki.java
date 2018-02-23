@@ -1,8 +1,10 @@
 package tikape.drinkkihaku;
 
 import java.util.List;
+import java.util.Map;
 import tikape.database.ArvosteluDAO;
 import tikape.database.Database;
+import tikape.database.DrinkkiRaakaAineDAO;
 
 public class Drinkki implements Comparable<Drinkki> {
     
@@ -48,6 +50,40 @@ public class Drinkki implements Comparable<Drinkki> {
     @Override
     public int compareTo(Drinkki drinkki) {
         return nimi.compareTo(drinkki.getNimi());
+    }
+    
+    public Map<RaakaAine, Integer> getAinesosat() throws Exception {
+        Database database = new Database("jdbc:sqlite:db/database.db");
+        DrinkkiRaakaAineDAO dao = new DrinkkiRaakaAineDAO(database);
+        return dao.ainesosat(id);
+    }
+    
+    public Integer tilavuus() throws Exception {
+        Map<RaakaAine, Integer> ainesosat = getAinesosat();
+        Integer maara = 0;
+        for (RaakaAine raakaAine : ainesosat.keySet()) {
+            maara += ainesosat.get(raakaAine);
+        }
+        return maara;
+    }
+    
+    public String getTilavuusRivi() throws Exception {
+        return tilavuus() + " ml";
+    }
+    
+    public Double alkoholiprosentti() throws Exception {
+        Map<RaakaAine, Integer> ainesosat = getAinesosat();
+        Double alkoholia = 0.0;
+        for (RaakaAine raakaAine : ainesosat.keySet()) {
+            alkoholia += raakaAine.getAlkoholiprosentti() * ainesosat.get(raakaAine);
+        }
+        return alkoholia / tilavuus();
+    }
+    
+    public String getAlkoholiprosenttiRivi() throws Exception {
+        Double alkoholiprosentti = alkoholiprosentti();
+        if (alkoholiprosentti == 0.0) return "alkoholiton";
+        return alkoholiprosentti.toString().substring(4) + " % vol.";
     }
     
 }

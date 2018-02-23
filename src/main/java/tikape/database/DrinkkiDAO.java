@@ -67,10 +67,10 @@ public class DrinkkiDAO implements DAO<Drinkki, Integer>{
         List<Drinkki> kaikki = findAll();
         List<Drinkki> tulos = new ArrayList<>();
         for (Drinkki drinkki : kaikki) {
-            if (drinkki.getNimi().contains(haettava)) {
+            if (drinkki.getNimi().toLowerCase().contains(haettava.toLowerCase())) {
                 tulos.add(drinkki);
             }
-            if (haettava.contains(drinkki.getNimi())) {
+            if (haettava.toLowerCase().contains(drinkki.getNimi().toLowerCase())) {
                 tulos.add(drinkki);
             }
         }

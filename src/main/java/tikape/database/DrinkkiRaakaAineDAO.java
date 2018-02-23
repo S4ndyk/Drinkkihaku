@@ -2,9 +2,14 @@ package tikape.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import tikape.drinkkihaku.DrinkkiRaakaAine;
+import tikape.drinkkihaku.RaakaAine;
 
 public class DrinkkiRaakaAineDAO implements DAO<DrinkkiRaakaAine, Integer> {
 
@@ -53,4 +58,19 @@ public class DrinkkiRaakaAineDAO implements DAO<DrinkkiRaakaAine, Integer> {
     public void update(DrinkkiRaakaAine type) throws SQLException {
         throw new UnsupportedOperationException("Not supported.");
     }
+    
+    public Map<RaakaAine, Integer> ainesosat(Integer drinkkiId) throws SQLException {
+        RaakaAineDAO rdao = new RaakaAineDAO(database);
+        Map<RaakaAine, Integer> ainesosat = new HashMap<>();
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT raakaAineId, maara FROM DrinkkiRaakaAine WHERE drinkkiId = ?");
+        stmt.setInt(1, drinkkiId);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            ainesosat.put(rdao.findOne(rs.getInt("raakaAineId")), rs.getInt("maara"));
+        }   rs.close();
+        stmt.close();
+        return ainesosat;
+    }
+    
 }
