@@ -31,8 +31,9 @@ public class DrinkkiDAO implements DAO<Drinkki, Integer>{
 
         Integer id = rs.getInt("id");
         String nimi = rs.getString("nimi");
+        String ohje = rs.getString("ohje");
 
-        Drinkki object = new Drinkki(id, nimi);
+        Drinkki object = new Drinkki(id, nimi, ohje);
 
         rs.close();
         stmt.close();
@@ -51,7 +52,8 @@ public class DrinkkiDAO implements DAO<Drinkki, Integer>{
             while (rs.next()) {
                 Integer id = rs.getInt("id");
                 String nimi = rs.getString("nimi");
-                Drinkki object = new Drinkki(id, nimi);
+                String ohje = rs.getString("ohje");
+                Drinkki object = new Drinkki(id, nimi, ohje);
                 
                 lista.add(object);
             }   rs.close();
@@ -102,10 +104,10 @@ public class DrinkkiDAO implements DAO<Drinkki, Integer>{
     public void save(Drinkki object) throws SQLException {
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Drinkki"
-                    + " (nimi)"
-                    + " VALUES (?)");
+                    + " (nimi, ohje)"
+                    + " VALUES (?, ?)");
             stmt.setString(1, object.getNimi());
-            
+            stmt.setString(2, object.getOhje());
             stmt.executeUpdate();
             stmt.close();
         }
