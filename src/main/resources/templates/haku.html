@@ -1,12 +1,32 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Haun tulos</title>
+        <title>Haku</title>
+        <link rel="stylesheet" type="text/css" href="arkistoTyyli.css"/>
         <meta charset="UTF-8"/>
     </head>
     <body>
-        
+        <h1>Haku</h1>
+        <h3>Hakua vastaavat juomat aakkosjärjestyksessä:</h3>
+        <a href="/index">Takaisin</a>
+        <ul>
+            <li th:each="drinkki: ${drinkit}">
+                <form method="POST" th:action="@{~/drinkki/{id}(id=${drinkki.id})}">
+                    <input type="hidden" name="drinkki" th:value="${drinkki.id}"/>
+                    <input type="submit" class="linkki" th:value="${drinkki.nimi}"/>
+                    <span th:text="${drinkki.arvosteluRivi}"/>
+                </form>
+                   
+                <form method="POST" action="/poista">
+                    <input type="submit" value="Poista"/>
+                    <input type="hidden" name="poista" th:value="${drinkki.id}"></input>
+                </form>
+                
+                <form method="POST" th:action="@{~/uusiarvostelu/{id}(id=${drinkki.id})}">
+                   <input type="submit" value="Arvostele"/>
+                   <input type="hidden" name="arvostelu" th:value="${drinkki.id}"></input>
+                </form>
+            </li>
+        </ul>
     </body>
 </html>
-
-

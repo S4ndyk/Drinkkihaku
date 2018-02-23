@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import tikape.drinkkihaku.Drinkki;
 
@@ -56,8 +57,24 @@ public class DrinkkiDAO implements DAO<Drinkki, Integer>{
             }   rs.close();
             stmt.close();
         }
-
+        
+        Collections.sort(lista);
+        
         return lista;
+    }
+    
+    public List<Drinkki> findByName(String haettava) throws SQLException {
+        List<Drinkki> kaikki = findAll();
+        List<Drinkki> tulos = new ArrayList<>();
+        for (Drinkki drinkki : kaikki) {
+            if (drinkki.getNimi().contains(haettava)) {
+                tulos.add(drinkki);
+            }
+            if (haettava.contains(drinkki.getNimi())) {
+                tulos.add(drinkki);
+            }
+        }
+        return tulos;
     }
 
     @Override

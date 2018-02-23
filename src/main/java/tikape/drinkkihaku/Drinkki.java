@@ -4,7 +4,7 @@ import java.util.List;
 import tikape.database.ArvosteluDAO;
 import tikape.database.Database;
 
-public class Drinkki {
+public class Drinkki implements Comparable<Drinkki> {
     
     private Integer id;
     private String nimi;
@@ -42,7 +42,12 @@ public class Drinkki {
         int arvosteluja = arvosteluja();
         if (arvostelu == -1.0) return "ei arvosteluja";
         if (arvosteluja == 1) return arvostelu + "/100, " + arvosteluja + " arvostelu";
-        return arvostelu + "/100, " + arvosteluja + " arvostelua";
+        return arvostelu.toString().substring(0,4) + "/100, " + arvosteluja + " arvostelua";
+    }
+
+    @Override
+    public int compareTo(Drinkki drinkki) {
+        return nimi.compareTo(drinkki.getNimi());
     }
     
 }

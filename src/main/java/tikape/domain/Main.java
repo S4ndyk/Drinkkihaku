@@ -39,11 +39,10 @@ public class Main {
         //drinkin omat sivut 
         post("/drinkki/:id", (req, res) -> {
             HashMap map = new HashMap();
-            Integer id = Integer.parseInt(req.queryParams("drinkki"));
+            Integer id = Integer.parseInt(req.params(":id"));
             Drinkki drinkki = Ddao.findOne(id);
             map.put("drinkki", drinkki);
             return new ModelAndView(map, "/drinkki");
-  
         }, new ThymeleafTemplateEngine());
         
 
@@ -67,7 +66,7 @@ public class Main {
             Double alkoholiprosentti = Double.parseDouble(req.queryParams("alkoholiprosentti"));
             Rdao.saveOrUpdate(new RaakaAine(-1, nimi, alkoholiprosentti));
             res.redirect("/raaka-aine");
-            return "";        
+            return "";
         });
         
         //raaka-aineen poistamistoiminto 
@@ -116,12 +115,7 @@ public class Main {
             map.put("ohje", ohje);
             return new ModelAndView(map, "/uusidrinkki/uusi");
         }, new ThymeleafTemplateEngine());
+        
 
-        //hakutoiminto. !!ei toteutettu!!
-        post("/haku", (req, res) -> {
-            String nimi = req.queryParams("nimi");
-            res.redirect("index");
-            return "/";
-        });
     }
 }
