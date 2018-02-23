@@ -88,7 +88,7 @@ public class Main {
             return new ModelAndView(map, "/arvostelu");
         },new ThymeleafTemplateEngine());
         
-        //uuden arvosteul lisäys
+        //uuden arvostelun lisäys
         post("/arvostelu", (req, res) -> {
             String teksti = req.queryParams("teksti");
             Integer pisteet = Integer.parseInt(req.queryParams("pisteet"));
@@ -102,23 +102,18 @@ public class Main {
         get("/uusidrinkki", (req, res) -> {
             HashMap map = new HashMap();
             map.put("raakaAineet", Rdao.findAll());
-            map.put("ohje", "");
-            map.put("nimi", "");
-            map.put("drinkkiAineet", new ArrayList());
             return new ModelAndView(map, "uusidrinkki");
         }, new ThymeleafTemplateEngine());
         
-        post("/uusidrinkki/uusiraaka-aine", (req, res) -> {
-            HashMap map = new HashMap();
-            map.put("raakaAineet", Rdao.findAll());
-            String ohje = req.queryParams("ohje");
+        post("/uusidrinkki", (req, res) -> {
             String nimi = req.queryParams("nimi");
-            Integer id = Integer.parseInt(req.queryParams("raakaAine"));
-            map.put("ohje", ohje);
-            map.put("nimi", nimi);
-            map.put("drinkkiaineet", Rdao.findOne(id));
-            return new ModelAndView(map, "uusidrinkki");
-        }, new ThymeleafTemplateEngine());
+            String ohje = req.queryParams("ohje");
+            String [] raakaAineet = req.queryParamsValues("id");
+            //Ddao.saveOrUpdate(new Drinkki(-1, nimi));
+            
+            res.redirect("/arkisto");
+            return "";
+        });
 
         //hakutoiminto. !!ei toteutettu!!
         post("/haku", (req, res) -> {
