@@ -1,3 +1,10 @@
-li.lista{
+li.listanOsa{
     list-style-type: none;
+}
+
+ul.lista{ 
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }

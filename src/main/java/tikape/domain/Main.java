@@ -87,7 +87,7 @@ public class Main {
             return new ModelAndView(map, "/arvostelu");
         },new ThymeleafTemplateEngine());
         
-        //uuden arvosteul lisäys
+        //uuden arvostelun lisäys
         post("/arvostelu", (req, res) -> {
             String teksti = req.queryParams("teksti");
             Integer pisteet = Integer.parseInt(req.queryParams("pisteet"));
@@ -101,30 +101,21 @@ public class Main {
         get("/uusidrinkki", (req, res) -> {
             HashMap map = new HashMap();
             map.put("raakaAineet", Rdao.findAll());
-            map.put("ohje", "");
-            map.put("nimi", "");
-            map.put("drinkkiAineet", new ArrayList());
             return new ModelAndView(map, "uusidrinkki");
         }, new ThymeleafTemplateEngine());
         
-        post("/uusidrinkki/uusiraaka-aine", (req, res) -> {
+        post("/uusidrinkki", (req, res) -> {
             HashMap map = new HashMap();
-            map.put("raakaAineet", Rdao.findAll());
-            String ohje = req.queryParams("ohje");
+            List<String> raakaAineLista = Arrays.asList(req.queryParamsValues("id"));
             String nimi = req.queryParams("nimi");
-            Integer id = Integer.parseInt(req.queryParams("raakaAine"));
-            map.put("ohje", ohje);
+            String ohje = req.queryParams("ohje"); 
+            
+            map.put("raakaAineet", raakaAineLista);
             map.put("nimi", nimi);
-            map.put("drinkkiaineet", Rdao.findOne(id));
-            return new ModelAndView(map, "uusidrinkki");
+            map.put("ohje", ohje);
+            return new ModelAndView(map, "/uusidrinkki/uusi");
         }, new ThymeleafTemplateEngine());
+        
 
-        //hakutoiminto. !!ei toteutettu!!
-        get("/haku/:nimi", (req, res) -> {
-            String nimi = req.params(":nimi");
-            HashMap map = new HashMap();
-            map.put("drinkit", Ddao.findByName(nimi));
-            return new ModelAndView(map, "/haku");
-        }, new ThymeleafTemplateEngine());
     }
 }
