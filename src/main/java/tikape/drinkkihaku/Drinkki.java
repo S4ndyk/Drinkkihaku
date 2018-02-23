@@ -83,13 +83,16 @@ public class Drinkki implements Comparable<Drinkki> {
         for (RaakaAine raakaAine : ainesosat.keySet()) {
             alkoholia += raakaAine.getAlkoholiprosentti() * ainesosat.get(raakaAine);
         }
-        return alkoholia / tilavuus();
+        Integer tilavuus = tilavuus();
+        if (tilavuus == 0) return 0.0;
+        return alkoholia / tilavuus;
     }
     
     public String getAlkoholiprosenttiRivi() throws Exception {
+        if (tilavuus() == 0) return "Drinkille ei löydy raaka-aineita!";
         Double alkoholiprosentti = alkoholiprosentti();
         if (alkoholiprosentti == 0.0) return "alkoholiton";
-        return alkoholiprosentti.toString().substring(4) + " % vol.";
+        return alkoholiprosentti.toString().substring(0, 4) + " % vol.";
     }
     
 }
