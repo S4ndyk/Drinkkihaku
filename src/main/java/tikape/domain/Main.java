@@ -106,19 +106,20 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         post("/uusidrinkki", (req, res) -> {
+            HashMap map = new HashMap();
+            List<String> raakaAineLista = Arrays.asList(req.queryParamsValues("id"));
             String nimi = req.queryParams("nimi");
-            String ohje = req.queryParams("ohje");
-            String [] raakaAineet = req.queryParamsValues("id");
-            //Ddao.saveOrUpdate(new Drinkki(-1, nimi));
+            String ohje = req.queryParams("ohje"); 
             
-            res.redirect("/arkisto");
-            return "";
-        });
+            map.put("raakaAineet", raakaAineLista);
+            map.put("nimi", nimi);
+            map.put("ohje", ohje);
+            return new ModelAndView(map, "/uusidrinkki/uusi");
+        }, new ThymeleafTemplateEngine());
 
         //hakutoiminto. !!ei toteutettu!!
         post("/haku", (req, res) -> {
             String nimi = req.queryParams("nimi");
-            List<Drinkki> haku = Ddao.findAll();
             res.redirect("index");
             return "/";
         });
