@@ -10,8 +10,10 @@ public class Drinkki implements Comparable<Drinkki> {
     
     private Integer id;
     private String nimi;
+    private String ohje;
     
-    public Drinkki(Integer id, String nimi) {
+    public Drinkki(Integer id, String nimi, String ohje) {
+        this.ohje = ohje;
         this.id = id;
         this.nimi = nimi;
     }
@@ -22,7 +24,11 @@ public class Drinkki implements Comparable<Drinkki> {
 
     public String getNimi() {
         return nimi;
-    }    
+    }
+
+    public String getOhje(){
+        return ohje;
+    }
     
     public List<Arvostelu> arvostelut() throws Exception {
         Database database = new Database("jdbc:sqlite:db/database.db");

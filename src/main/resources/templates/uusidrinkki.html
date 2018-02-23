@@ -14,8 +14,7 @@
             <ul class="lista">
                 <li th:each="raakaAine: ${raakaAineet}" class="listanOsa">
                     <span th:text="${raakaAine.nimi}"/>
-                    <input type="checkbox" name="id" th:value="${raakaAine.id}"/>
-                    
+                    <input type="checkbox" name="id" th:value="${raakaAine.id}"/>                 
                 </li>
             </ul>
             <input type="text" name="ohje"/><br />
