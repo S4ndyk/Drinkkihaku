@@ -117,5 +117,11 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
 
+        get("/haku/:nimi", (req, res) -> {
+            String nimi = req.params(":nimi");
+            HashMap map = new HashMap();
+            map.put("drinkit", Ddao.findByName(nimi));
+            return new ModelAndView(map, "/haku");
+        }, new ThymeleafTemplateEngine());
     }
 }
