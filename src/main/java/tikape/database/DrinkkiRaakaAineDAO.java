@@ -23,13 +23,12 @@ public class DrinkkiRaakaAineDAO implements DAO<DrinkkiRaakaAine, Integer> {
     public void saveOrUpdate(DrinkkiRaakaAine drinkkiRaakaAine) throws SQLException {
          try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO DrinkkiRaakaAine (drinkkiId, raakaAineId, ohje, maara, jarjestys) "
-                        + "VALUES (?, ?, ?, ?, ?)");
+                "INSERT INTO DrinkkiRaakaAine (drinkkiId, raakaAineId, maara) "
+                        + "VALUES (?, ?, ?)");
             stmt.setInt(1, drinkkiRaakaAine.getDrinkkiId());
             stmt.setInt(2, drinkkiRaakaAine.getRaakaAineId());
-            stmt.setString(3, drinkkiRaakaAine.getOhje());
-            stmt.setInt(4, drinkkiRaakaAine.getMaara());
-            stmt.setInt(5, drinkkiRaakaAine.getJarjestys());
+            stmt.setInt(3, drinkkiRaakaAine.getMaara());
+            
             stmt.executeUpdate();
         }
     }
