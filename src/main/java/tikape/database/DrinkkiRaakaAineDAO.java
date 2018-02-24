@@ -30,6 +30,8 @@ public class DrinkkiRaakaAineDAO implements DAO<DrinkkiRaakaAine, Integer> {
             stmt.setInt(3, drinkkiRaakaAine.getMaara());
             
             stmt.executeUpdate();
+            stmt.close();
+            conn.close();
         }
     }
 

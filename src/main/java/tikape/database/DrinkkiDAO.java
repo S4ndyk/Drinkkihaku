@@ -78,6 +78,34 @@ public class DrinkkiDAO implements DAO<Drinkki, Integer>{
         }
         return tulos;
     }
+    
+    public Drinkki findOneByName(String haettava) throws SQLException {
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Drinkki WHERE nimi = ?");
+        stmt.setString(1, haettava);
+        
+       
+        
+        ResultSet rs = stmt.executeQuery();
+        boolean hasOne = rs.next();
+        if(!hasOne){ 
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+            return null;
+        }
+        
+        Integer id = rs.getInt("id");
+        String nimi = rs.getString("nimi");
+        String ohje = rs.getString("ohje");
+        
+        rs.close();
+        stmt.close();
+        conn.close();
+        
+        return new Drinkki(id, nimi, ohje);
+    }
 
     @Override
     public void delete(Integer key) throws SQLException {
@@ -110,6 +138,7 @@ public class DrinkkiDAO implements DAO<Drinkki, Integer>{
             stmt.setString(2, object.getOhje());
             stmt.executeUpdate();
             stmt.close();
+            conn.close();
         }
     }
     

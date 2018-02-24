@@ -16,6 +16,7 @@ public class Main {
         DrinkkiDAO Ddao = new DrinkkiDAO(database);
         RaakaAineDAO Rdao = new RaakaAineDAO(database);
         ArvosteluDAO Adao = new ArvosteluDAO(database);
+        DrinkkiRaakaAineDAO DRdao = new DrinkkiRaakaAineDAO(database);
 
         //etusivu
         get("/index", (req, res) -> {
@@ -122,12 +123,23 @@ public class Main {
         post("/uusidrinkki", (req, res) -> {
             String nimi = req.queryParams("nimi");
             String ohje = req.queryParams("ohje");
-            List<String> merkkijonoLista = Arrays.asList(req.queryParamsValues("id"));
+            Drinkki d = new Drinkki(-1, nimi, ohje);
+            Ddao.saveOrUpdate(d);
+            
+            List<String> merkkijonoLista = Arrays.asList(req.queryParamsValues("raakaAineet"));
             ArrayList<RaakaAine> raakaAineLista = new ArrayList<>();
             for (int i = 0; i < merkkijonoLista.size(); i++) {
                 RaakaAine r = Rdao.findOne(Integer.parseInt(merkkijonoLista.get(i)));
                 raakaAineLista.add(r);
             }
+            
+            for(RaakaAine r : raakaAineLista){
+                Integer drinkkiId = Ddao.findOneByName(nimi).getId();
+                Integer raakaAineId = r.getId();
+                Integer maara = Integer.parseInt(req.queryParams(r.getId().toString()));
+                DRdao.saveOrUpdate(new DrinkkiRaakaAine(drinkkiId, raakaAineId, maara));
+            }
+            
             res.redirect("/arkisto");
             return "";
         });

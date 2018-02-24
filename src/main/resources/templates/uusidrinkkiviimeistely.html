@@ -14,6 +14,7 @@
                     <span th:text="${raakaAine.nimi}"></span>
                     Määrä (ml): 
                     <input type="number" min="1" th:name="${raakaAine.id}"/>
+                    <input type="hidden" th:value="${raakaAine.id}" name="raakaAineet"/>
                 </li>
             </ul>
             <input type ="hidden" name="nimi" th:value="${nimi}"/>
