@@ -1,0 +1,25 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Viimeistele drinkkisi</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1 th:text="${nimi}"></h1>
+        <h3>Viimeistele uusi herkullinen drinkkisi</h3>
+        RaakaAineet:
+        <form method="POST" action="/uusidrinkki">
+            <ul>
+                <li th:each="raakaAine: ${raakaAineet}">
+                    <span th:text="${raakaAine.nimi}"></span>
+                    Määrä (ml): 
+                    <input type="number" min="1" th:name="${raakaAine.id}"/>
+                </li>
+            </ul>
+            <input type ="hidden" name="nimi" th:value="${nimi}"/>
+            <input type="hidden" name="ohje" th:value="${ohje}"/>
+            <input type="submit" value="Lisää uusi drinkki"/>
+            
+        </form>
+    </body>
+</html>
