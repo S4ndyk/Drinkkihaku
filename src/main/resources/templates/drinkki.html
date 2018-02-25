@@ -2,14 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Drinkki</title>
+        <link rel="stylesheet" type="text/css" href="raaka-aineTyyli.css"/>
         <meta charset="UTF-8"/>
     </head>
     <body>
         <h1 th:text='${drinkki.nimi}'></h1>
-        Tilavuus: 
+        Määrä yhteensä: 
         <span th:text='${drinkki.tilavuusRivi}'></span><br />
         Alkoholiprosentti: 
         <span th:text='${drinkki.alkoholiprosenttiRivi}'></span><br />
+        Raaka-Aineet:<br />
+        <ul class="raaka-ainelista">
+            <li th:each='raakaAine: ${raakaAineet}'>
+                <span th:text='${raakaAine.nimi}'/>: 
+                <span th:text="${maarat.get(raakaAine.id)}"/> ml
+            </li>
+        </ul>
+        Ohje: <br />
+        <span th:text="${drinkki.ohje}"/><br/>
+        
         Arvostelut: <br />
         <ul>
             <li th:each="arvostelu: ${arvostelut}">

@@ -43,8 +43,14 @@ public class Main {
             Integer id = Integer.parseInt(req.params(":id"));
             Drinkki drinkki = Ddao.findOne(id);
             List<Arvostelu> arvostelut = Adao.drinkinArvostelut(id);
+            List<RaakaAine> raakaAineet = DRdao.getRaakaAineet(id);
+            Map<Integer, Integer> maarat = DRdao.maarat(id);
+            
+            map.put("raakaAineet", raakaAineet);
+            map.put("maarat", maarat);
             map.put("arvostelut", arvostelut);
             map.put("drinkki", drinkki);
+            
             return new ModelAndView(map, "/drinkki");
         }, new ThymeleafTemplateEngine());
 

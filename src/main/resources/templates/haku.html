@@ -17,10 +17,6 @@
                     <span th:text="${drinkki.arvosteluRivi}"/>
                 </form>
                    
-                <form method="POST" action="/poista">
-                    <input type="submit" value="Poista"/>
-                    <input type="hidden" name="poista" th:value="${drinkki.id}"></input>
-                </form>
                 
                 <form method="POST" th:action="@{~/uusiarvostelu/{id}(id=${drinkki.id})}">
                    <input type="submit" value="Arvostele"/>

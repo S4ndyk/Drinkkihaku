@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Raaka-aine</title>
+        <link rel="stylesheet" type="text/css" href="raaka-aineenLisaysTyyli.css"/>
         <meta charset="UTF-8"/>
     </head>
     <body>
@@ -12,15 +13,10 @@
         <a href="/arkisto">Takaisin arkistoon</a>
         
         <h4>Alla lista jo tietokannassa olevista raaka-aineista</h4>
-        <ul>
+        <ul class="raakaAinelista">
             <li th:each="raakaAine: ${raakaAineet}">
                 <span th:text="${raakaAine.nimi}"></span>
-                <span th:text="${raakaAine.alkoholiprosentti}">%</span>
-                 <form method="POST" action="/raaka-aine/poista">
-                        <input type="submit" value="Poista"/>
-                        <input type="hidden" name="poista" th:value="${raakaAine.id}"></input>
-                    </form>
-
+                <span th:text="${raakaAine.alkoholiprosentti}"></span>%
             </li>
         </ul>
 

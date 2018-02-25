@@ -4,21 +4,11 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : Feb 20, 2018, 11:20:01 AM
+    Created on : Feb 25, 2018, 11:17:32 PM
     Author     : Santtu
 */
-
-input.linkki{
-    color: blue;
-    border-style: none;
-    background-color: transparent;
-    font-style: italic;
-    font-size: 14px;
-    text-decoration: underline;
-}
-
-ul.drinkki-lista{ 
-  height: 500px;
+ul.raakaAinelista{ 
+  height: 200px;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
