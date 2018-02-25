@@ -125,7 +125,5 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
     @Override
     public void update(Arvostelu object) throws SQLException {
         
-    }   
+    }
 }
-    
-

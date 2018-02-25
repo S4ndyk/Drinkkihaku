@@ -42,6 +42,8 @@ public class Main {
             HashMap map = new HashMap();
             Integer id = Integer.parseInt(req.params(":id"));
             Drinkki drinkki = Ddao.findOne(id);
+            List<Arvostelu> arvostelut = Adao.drinkinArvostelut(id);
+            map.put("arvostelut", arvostelut);
             map.put("drinkki", drinkki);
             return new ModelAndView(map, "/drinkki");
         }, new ThymeleafTemplateEngine());
@@ -78,10 +80,9 @@ public class Main {
 
         //arvostelu sivu
         post("/uusiarvostelu/:id", (req, res) -> {
+            HashMap map = new HashMap();
             Integer id = Integer.parseInt(req.queryParams("arvostelu"));
             Drinkki drinkki = Ddao.findOne(id);
-
-            HashMap map = new HashMap();
             map.put("drinkki", drinkki);
 
             return new ModelAndView(map, "/arvostelu");

@@ -6,8 +6,19 @@
     </head>
     <body>
         <h1 th:text='${drinkki.nimi}'></h1>
-        <h2 th:text='${drinkki.tilavuusRivi}'></h2>
-        <h3 th:text='${drinkki.alkoholiprosenttiRivi}'></h3>
+        Tilavuus: 
+        <span th:text='${drinkki.tilavuusRivi}'></span><br />
+        Alkoholiprosentti: 
+        <span th:text='${drinkki.alkoholiprosenttiRivi}'></span><br />
+        Arvostelut: <br />
+        <ul>
+            <li th:each="arvostelu: ${arvostelut}">
+                <span th:text="${arvostelu.teksti}"/><br />
+                Pisteet:
+                <span th:text="${arvostelu.pisteet}"/>/100
+            </li>
+            
+        </ul>
         <a href="/arkisto">Takaisin</a><br />
         
     </body>
