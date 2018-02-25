@@ -11,6 +11,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+        if (System.getenv("PORT") != null) {
+            port(Integer.valueOf(System.getenv("PORT")));
+        }
+
         Database database = new Database("jdbc:sqlite:db/database.db");
         staticFiles.location("/public");
         DrinkkiDAO Ddao = new DrinkkiDAO(database);
@@ -45,12 +49,12 @@ public class Main {
             List<Arvostelu> arvostelut = Adao.drinkinArvostelut(id);
             List<RaakaAine> raakaAineet = DRdao.getRaakaAineet(id);
             Map<Integer, Integer> maarat = DRdao.maarat(id);
-            
+
             map.put("raakaAineet", raakaAineet);
             map.put("maarat", maarat);
             map.put("arvostelut", arvostelut);
             map.put("drinkki", drinkki);
-            
+
             return new ModelAndView(map, "/drinkki");
         }, new ThymeleafTemplateEngine());
 
@@ -132,21 +136,21 @@ public class Main {
             String ohje = req.queryParams("ohje");
             Drinkki d = new Drinkki(-1, nimi, ohje);
             Ddao.saveOrUpdate(d);
-            
+
             List<String> merkkijonoLista = Arrays.asList(req.queryParamsValues("raakaAineet"));
             ArrayList<RaakaAine> raakaAineLista = new ArrayList<>();
             for (int i = 0; i < merkkijonoLista.size(); i++) {
                 RaakaAine r = Rdao.findOne(Integer.parseInt(merkkijonoLista.get(i)));
                 raakaAineLista.add(r);
             }
-            
-            for(RaakaAine r : raakaAineLista){
+
+            for (RaakaAine r : raakaAineLista) {
                 Integer drinkkiId = Ddao.findOneByName(nimi).getId();
                 Integer raakaAineId = r.getId();
                 Integer maara = Integer.parseInt(req.queryParams(r.getId().toString()));
                 DRdao.saveOrUpdate(new DrinkkiRaakaAine(drinkkiId, raakaAineId, maara));
             }
-            
+
             res.redirect("/arkisto");
             return "";
         });
