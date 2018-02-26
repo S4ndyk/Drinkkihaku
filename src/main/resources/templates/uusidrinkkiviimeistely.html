@@ -13,7 +13,7 @@
                 <li th:each="raakaAine: ${raakaAineet}">
                     <span th:text="${raakaAine.nimi}"></span>
                     Määrä (ml): 
-                    <input type="number" min="1" th:name="${raakaAine.id}"/>
+                    <input type="number" min="1" max="10000" th:name="${raakaAine.id}"/>
                     <input type="hidden" th:value="${raakaAine.id}" name="raakaAineet"/>
                 </li>
             </ul>

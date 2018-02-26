@@ -11,7 +11,7 @@
         <a href="/arkisto">Takaisin arkistoon</a><br />
         <form method="POST" action="/uusidrinkkiviimeistely">
              Nimi: 
-            <input type="text" name="nimi"/>
+            <input type="text" name="nimi" maxlength="30"/>
             <h4>Raaka-aineet</h4>
             <ul class="lista">
                 <li th:each="raakaAine: ${raakaAineet}" class="listanOsa">
@@ -20,7 +20,7 @@
                 </li>
             </ul>
             Ohje:
-            <input type="text" name="ohje"/><br />
+            <input type="text" name="ohje" maxlength="100"/><br />
             <input type="submit"/>
         </form>       
     </body>
