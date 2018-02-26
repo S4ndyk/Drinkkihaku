@@ -127,4 +127,20 @@ public class DrinkkiRaakaAineDAO implements DAO<DrinkkiRaakaAine, Integer> {
         return ainesosat;
     }
 
+    public Map<Integer, Integer> raakaAineitaDrinkeissa() throws SQLException {
+        Map<Integer, Integer> map = new HashMap<>();
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT raakaAineId AS raakaAine, COUNT(drinkkiId) AS maara FROM DrinkkiRaakaAine GROUP BY RaakaAineId");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                map.put(rs.getInt("raakaAine"), rs.getInt("maara"));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return map;
+    }
+
 }

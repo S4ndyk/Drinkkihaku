@@ -1,0 +1,19 @@
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">    
+    <head>
+        <title>Tilastot</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1>Tilasto</h1>
+        <h3>Kuinka monta kertaa kutakin raaka-ainetta on käytety</h3>
+        <a href="/index">Takaisin etusivulle</a>
+        <ul>
+            <li th:each="raakaAine: ${raakaAineet}">
+                <span th:text="${raakaAine.nimi}"/>
+                (<span th:text="${kerrat.get(raakaAine.id)}"/>)
+            </li>      
+        </ul>
+    </body>
+</html>

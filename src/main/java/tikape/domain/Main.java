@@ -161,5 +161,14 @@ public class Main {
             map.put("drinkit", Ddao.findByName(nimi));
             return new ModelAndView(map, "/haku");
         }, new ThymeleafTemplateEngine());
+        
+        get("/tilasto", (req, res) -> {
+            HashMap map = new HashMap();
+            List<RaakaAine> raakaAineet = Rdao.findAll();
+            Map<Integer, Integer> kerrat = DRdao.raakaAineitaDrinkeissa();
+            map.put("raakaAineet", raakaAineet);
+            map.put("kerrat", kerrat);
+            return new  ModelAndView(map, "/tilasto");
+        }, new ThymeleafTemplateEngine());
     }
 }
