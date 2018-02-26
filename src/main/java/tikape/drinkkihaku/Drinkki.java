@@ -94,7 +94,8 @@ public class Drinkki implements Comparable<Drinkki> {
         if (tilavuus() == 0) return "Drinkille ei löydy raaka-aineita!";
         Double alkoholiprosentti = alkoholiprosentti();
         if (alkoholiprosentti == 0.0) return "alkoholiton";
-        return alkoholiprosentti.toString().substring(0, 4) + " % vol.";
+         DecimalFormat df = new DecimalFormat("#.#");
+        return df.format(alkoholiprosentti) + " % vol.";
     }
     
 }
