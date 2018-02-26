@@ -1,5 +1,6 @@
 package tikape.drinkkihaku;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import tikape.database.ArvosteluDAO;
@@ -50,9 +51,10 @@ public class Drinkki implements Comparable<Drinkki> {
         int arvosteluja = arvosteluja();
         if (arvostelu == -1.0) return "ei arvosteluja";
         if (arvosteluja == 1) return arvostelu + "/100, " + arvosteluja + " arvostelu";
-        return arvostelu.toString().substring(0,4) + "/100, " + arvosteluja + " arvostelua";
+        DecimalFormat df = new DecimalFormat("#.#");
+        return df.format(arvostelu) + "/100, " + arvosteluja + " arvostelua";
     }
-
+       
     @Override
     public int compareTo(Drinkki drinkki) {
         return nimi.compareTo(drinkki.getNimi());
