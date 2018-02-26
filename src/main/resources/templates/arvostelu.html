@@ -9,7 +9,7 @@
         <span th:text="${drinkki.nimi}"></span>
         <form method="POST" action="/arvostelu">
             Kirjoita arvostelu: 
-            <input type="text" name="teksti" maxlength="100"/><br />
+            <input type="text" name="teksti" maxlength="100" required="required"/><br />
             
             Anna pisteet: 
             <input type="number" name="pisteet" min="1" max="100" step="1" value="1"/><br />
