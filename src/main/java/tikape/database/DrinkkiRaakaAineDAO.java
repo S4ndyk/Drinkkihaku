@@ -15,24 +15,26 @@ import tikape.drinkkihaku.RaakaAine;
 public class DrinkkiRaakaAineDAO implements DAO<DrinkkiRaakaAine, Integer> {
 
     Database database;
-    
-    public DrinkkiRaakaAineDAO(Database database){
+
+    public DrinkkiRaakaAineDAO(Database database) {
         this.database = database;
     }
 
     @Override
     public void saveOrUpdate(DrinkkiRaakaAine drinkkiRaakaAine) throws SQLException {
-         try (Connection conn = database.getConnection()) {
+        try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
-                "INSERT INTO DrinkkiRaakaAine (drinkkiId, raakaAineId, maara) "
-                        + "VALUES (?, ?, ?)");
+                    "INSERT INTO DrinkkiRaakaAine (drinkkiId, raakaAineId, maara) "
+                    + "VALUES (?, ?, ?)");
             stmt.setInt(1, drinkkiRaakaAine.getDrinkkiId());
             stmt.setInt(2, drinkkiRaakaAine.getRaakaAineId());
             stmt.setInt(3, drinkkiRaakaAine.getMaara());
-            
+
             stmt.executeUpdate();
             stmt.close();
             conn.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -61,59 +63,84 @@ public class DrinkkiRaakaAineDAO implements DAO<DrinkkiRaakaAine, Integer> {
         throw new UnsupportedOperationException("Not supported.");
     }
 
-    public List<RaakaAine> getRaakaAineet(Integer key) throws SQLException{
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT raakaAine.nimi, raakaAine.id, raakaAine.alkoholiprosentti FROM RaakaAine INNER JOIN DrinkkiRaakaAine ON RaakaAine.id = DrinkkiRaakaAine.raakaAineId"
-        + " INNER JOIN Drinkki ON DrinkkiRaakaAine.drinkkiId = ?;" );
-        stmt.setInt(1, key);
-        ResultSet rs = stmt.executeQuery();
+    public List<RaakaAine> getRaakaAineet(Integer key) throws SQLException {
         ArrayList<RaakaAine> lista = new ArrayList<>();
-        while(rs.next()){
-            Integer id = rs.getInt("id");
-            String nimi = rs.getString("nimi");
-            Double alkoholiProsentti = rs.getDouble("alkoholiprosentti");
-            RaakaAine r = new RaakaAine(id, nimi, alkoholiProsentti);
-            lista.add(r);
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT raakaAine.nimi, raakaAine.id, raakaAine.alkoholiprosentti FROM RaakaAine INNER JOIN DrinkkiRaakaAine ON RaakaAine.id = DrinkkiRaakaAine.raakaAineId"
+                    + " INNER JOIN Drinkki ON DrinkkiRaakaAine.drinkkiId = ?;");
+            stmt.setInt(1, key);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Integer id = rs.getInt("id");
+                String nimi = rs.getString("nimi");
+                Double alkoholiProsentti = rs.getDouble("alkoholiprosentti");
+                RaakaAine r = new RaakaAine(id, nimi, alkoholiProsentti);
+                lista.add(r);
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        rs.close();
-        stmt.close();
-        conn.close();
         return lista;
     }
-    
-    public Map<Integer, Integer> maarat(Integer drinkkiId)throws SQLException{
+
+    public Map<Integer, Integer> maarat(Integer drinkkiId) throws SQLException {
         RaakaAineDAO rdao = new RaakaAineDAO(database);
         Map<Integer, Integer> map = new HashMap<>();
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT raakaAineId, maara FROM DrinkkiRaakaAine WHERE drinkkiId = ?");
-        stmt.setInt(1, drinkkiId);
-        ResultSet rs = stmt.executeQuery();
-        
-        while(rs.next()){
-            Integer id = rs.getInt("raakaAineId");
-            Integer maara = rs.getInt("maara");
-            map.put(id, maara);
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT raakaAineId, maara FROM DrinkkiRaakaAine WHERE drinkkiId = ?");
+            stmt.setInt(1, drinkkiId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Integer id = rs.getInt("raakaAineId");
+                Integer maara = rs.getInt("maara");
+                map.put(id, maara);
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        
-        rs.close();
-        stmt.close();
-        conn.close();
-       
+
         return map;
     }
-    
+
     public Map<RaakaAine, Integer> ainesosat(Integer drinkkiId) throws SQLException {
         RaakaAineDAO rdao = new RaakaAineDAO(database);
         Map<RaakaAine, Integer> ainesosat = new HashMap<>();
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT raakaAineId, maara FROM DrinkkiRaakaAine WHERE drinkkiId = ?");
-        stmt.setInt(1, drinkkiId);
-        ResultSet rs = stmt.executeQuery();
-        while (rs.next()) {
-            ainesosat.put(rdao.findOne(rs.getInt("raakaAineId")), rs.getInt("maara"));
-        }   rs.close();
-        stmt.close();
+        try (Connection conn = database.getConnection()) {;
+            PreparedStatement stmt = conn.prepareStatement("SELECT raakaAineId, maara FROM DrinkkiRaakaAine WHERE drinkkiId = ?");
+            stmt.setInt(1, drinkkiId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                ainesosat.put(rdao.findOne(rs.getInt("raakaAineId")), rs.getInt("maara"));
+            }
+            rs.close();
+            stmt.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return ainesosat;
     }
-    
+
+    public Map<Integer, Integer> raakaAineitaDrinkeissa() throws SQLException {
+        Map<Integer, Integer> map = new HashMap<>();
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT raakaAineId AS raakaAine, COUNT(drinkkiId) AS maara FROM DrinkkiRaakaAine GROUP BY RaakaAineId");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                map.put(rs.getInt("raakaAine"), rs.getInt("maara"));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return map;
+    }
+
 }

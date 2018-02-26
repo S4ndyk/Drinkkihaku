@@ -32,7 +32,7 @@ public class Drinkki implements Comparable<Drinkki> {
     }
     
     public List<Arvostelu> arvostelut() throws Exception {
-        Database database = new Database("jdbc:sqlite:db/database.db");
+        Database database = new Database();
         ArvosteluDAO dao = new ArvosteluDAO(database);
         return dao.drinkinArvostelut(id);
     }
@@ -61,7 +61,7 @@ public class Drinkki implements Comparable<Drinkki> {
     }
     
     public Map<RaakaAine, Integer> getAinesosat() throws Exception {
-        Database database = new Database("jdbc:sqlite:db/database.db");
+        Database database = new Database();
         DrinkkiRaakaAineDAO dao = new DrinkkiRaakaAineDAO(database);
         return dao.ainesosat(id);
     }
