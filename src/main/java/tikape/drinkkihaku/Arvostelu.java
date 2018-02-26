@@ -10,11 +10,6 @@ public class Arvostelu {
         this.id = id;
         this.teksti = teksti;
         this.DrinkkiId = DrinkkiId;
-        
-        //annetaan rajat pisteytykselle 
-        if(pisteet > 100  || pisteet < 1){
-            throw new RuntimeException("Muuttuja pisteet on liian suuri tai pieni");
-        }
         this.pisteet = pisteet;
     }
 

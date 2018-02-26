@@ -18,37 +18,34 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
     
     @Override
     public Arvostelu findOne(Integer key) throws SQLException {
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Arvostelu WHERE id = ?");
-        stmt.setObject(1, key);
-
-        ResultSet rs = stmt.executeQuery();
-        boolean hasOne = rs.next();
-        if (!hasOne) {
-            return null;
+        Arvostelu object = new Arvostelu(-1, -1, "", -1);
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Arvostelu WHERE id = ?");
+            stmt.setObject(1, key);
+            ResultSet rs = stmt.executeQuery();
+            boolean hasOne = rs.next();
+            if (!hasOne) {
+                return null;
+            }   Integer id = rs.getInt("id");
+            Integer drinkkiId = rs.getInt("drinkkiId");
+            String teksti = rs.getString("teksti");
+            Integer pisteet = rs.getInt("pisteet");
+            object = new Arvostelu(id, drinkkiId,teksti, pisteet);
+            rs.close();
+            stmt.close();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
-
-        Integer id = rs.getInt("id");
-        Integer drinkkiId = rs.getInt("drinkkiId");
-        String teksti = rs.getString("teksti");
-        Integer pisteet = rs.getInt("pisteet");
-
-        Arvostelu object = new Arvostelu(id, drinkkiId,teksti, pisteet);
-
-        rs.close();
-        stmt.close();
-        connection.close();
 
         return object;
     }
 
     @Override
     public List<Arvostelu> findAll() throws SQLException {
-        List<Arvostelu> lista;
+        List<Arvostelu> lista = new ArrayList<>();
         try (Connection connection = database.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Arvostelu");
             ResultSet rs = stmt.executeQuery();
-            lista = new ArrayList<>();
             while (rs.next()) {
                 Integer id = rs.getInt("id");
                 Integer drinkkiId = rs.getInt("drinkkiId");
@@ -59,18 +56,19 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
                 lista.add(object);
             }   rs.close();
             stmt.close();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
 
         return lista;
     }
     
     public List<Arvostelu> drinkinArvostelut(Integer drinkkiId) throws SQLException {
-        List<Arvostelu> lista;
+        List<Arvostelu> lista = new ArrayList<>();
         try (Connection connection = database.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Arvostelu WHERE drinkkiId = ?");
             stmt.setInt(1, drinkkiId);
             ResultSet rs = stmt.executeQuery();
-            lista = new ArrayList<>();
             while (rs.next()) {
                 Integer id = rs.getInt("id");
                 String teksti = rs.getString("teksti");
@@ -80,6 +78,8 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
                 lista.add(object);
             }   rs.close();
             stmt.close();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
 
         return lista;
@@ -87,14 +87,16 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
 
     @Override
     public void delete(Integer key) throws SQLException {
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Arvostelu WHERE id = ?");
-
-        stmt.setInt(1, key);
-        stmt.executeUpdate();
-
-        stmt.close();
-        conn.close();
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM Arvostelu WHERE id = ?");
+            
+            stmt.setInt(1, key);
+            stmt.executeUpdate();
+            
+            stmt.close();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     
     @Override
@@ -119,6 +121,8 @@ public class ArvosteluDAO implements DAO<Arvostelu, Integer> {
             
             stmt.executeUpdate();
             stmt.close();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
     

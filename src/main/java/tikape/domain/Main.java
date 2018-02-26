@@ -15,7 +15,7 @@ public class Main {
             port(Integer.valueOf(System.getenv("PORT")));
         }
 
-        Database database = new Database("jdbc:sqlite:db/database.db");
+        Database database = new Database();
         staticFiles.location("/public");
         DrinkkiDAO Ddao = new DrinkkiDAO(database);
         RaakaAineDAO Rdao = new RaakaAineDAO(database);
