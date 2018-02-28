@@ -130,7 +130,7 @@ public class DrinkkiRaakaAineDAO implements DAO<DrinkkiRaakaAine, Integer> {
     public Map<Integer, Integer> raakaAineitaDrinkeissa() throws SQLException {
         Map<Integer, Integer> map = new HashMap<>();
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT raakaAineId AS raakaAine, COUNT(drinkkiId) AS maara FROM DrinkkiRaakaAine GROUP BY RaakaAineId");
+            PreparedStatement stmt = conn.prepareStatement("SELECT RaakaAine.id AS raakaAine, COUNT(DrinkkiRaakaAine.DrinkkiId) AS maara FROM RaakaAine LEFT JOIN DrinkkiRaakaAine ON RaakaAine.id = DrinkkiRaakaAine.RaakaAineId LEFT JOIN Drinkki ON Drinkki.id = DrinkkiRaakaAine.DrinkkiId GROUP BY RaakaAine.nimi");
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
